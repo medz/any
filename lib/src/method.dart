@@ -38,7 +38,7 @@ class Method {
       'PATCH' => Method.patch,
       String(isEmpty: final isEmpty) => switch (isEmpty) {
           true => throw ArgumentError.value(value, 'value', 'cannot be empty'),
-          false => Method._(value),
+          false => Method._(value.toLowerCase()),
         },
     };
   }
@@ -46,6 +46,18 @@ class Method {
   /// The HTTP method to string.
   @override
   String toString() => value.toUpperCase();
+
+  /// The HTTP method to hash code.
+  @override
+  int get hashCode => toString().hashCode;
+
+  /// The HTTP method to equality.
+  @override
+  bool operator ==(Object other) => switch (other) {
+        String() => value == other.toUpperCase(),
+        Method(value: final otherValue) => value == otherValue,
+        _ => false,
+      };
 
   /// HTTP GET method.
   ///
